@@ -15,9 +15,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add DbContext for FreshCart database
+// Add DbContext for FreshCart database using MySQL (TiDB Cloud)
 builder.Services.AddDbContext<FreshCartDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("FreshCartCS")));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("FreshCartCS"), 
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("FreshCartCS"))
+    ));
 
 // Configure CORS policy
 builder.Services.AddCors(options =>
